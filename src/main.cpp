@@ -87,19 +87,26 @@ void autonomous() {
 			.withMotors(FRONT_LEFT_PORT, -FRONT_RIGHT_PORT, -BACK_RIGHT_PORT, BACK_LEFT_PORT)  //reverse front right and back right in order to go forward   
 			// change P then D first then I only if necessary  
 			//start with P I and D with zero 
-			.withGains(
-				{0.001, 0, 0.0001}, // Distance controller gains
-				{0.001, 0, 0.0001}, // turn controller gains
+			.withGains( //0.7, 0, 0.1 results: faster, shaking less violently 0
+		//0.5 = 
+				{0.001, 0, 0}, // Distance controller gains 
+				{0.01, 0, 0.00022}, // turn controller gains
 				{0.000, 0, 0.0000}	// Angle controller (helps bot drive straight)
 				)
-			.withMaxVelocity(50)
+			.withMaxVelocity(100)
 			// Green gearset, 3 inch wheel diam, 9 inch wheel track
 
 			.withDimensions(AbstractMotor::gearset::green, {{3_in, 9_in}, imev5GreenTPR})
 			.build();
 
 	pros::lcd::set_text(1, "THIS IS AUTON!");
-	bot->moveDistance(10_in); //drive forward 10 inches
+	//bot->moveDistance(33_in); //drive forward 33 inches, turn 90 degrees, 77 inches 
+	bot->turnAngle(90_deg);
+
+
+	
+
+	
 
 }
 
