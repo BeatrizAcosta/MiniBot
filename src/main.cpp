@@ -84,7 +84,9 @@ void competition_initialize() {}
 void autonomous() {
 
 	std::shared_ptr<ChassisController> bot = ChassisControllerBuilder()     
-			.withMotors(FRONT_LEFT_PORT, -FRONT_RIGHT_PORT, -BACK_RIGHT_PORT, BACK_LEFT_PORT)  //reverse front right and back right in order to go forward 
+			.withMotors(FRONT_LEFT_PORT, -FRONT_RIGHT_PORT, -BACK_RIGHT_PORT, BACK_LEFT_PORT)  //reverse front right and back right in order to go forward   
+			// change P then D first then I only if necessary  
+			//start with P I and D with zero 
 			.withGains(
 				{0.001, 0, 0.0001}, // Distance controller gains
 				{0.001, 0, 0.0001}, // turn controller gains
