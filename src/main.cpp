@@ -6,6 +6,11 @@
 #include "okapi/api/chassis/controller/chassisControllerPid.hpp"
 using namespace okapi;
 
+const int FRONT_LEFT_PORT = 1;
+const int FRONT_RIGHT_PORT = 11;
+const int BACK_LEFT_PORT = 10;
+const int BACK_RIGHT_PORT = 20;
+
 
 // pros::Motor topLeft(1, false);
 // pros::Motor topRight(19, true);
@@ -78,22 +83,21 @@ void competition_initialize() {}
 
 void autonomous() {
 
-	std::shared_ptr<ChassisController> bot =
-    ChassisControllerBuilder()
-	.withMotors(1,11,20,10)
-    .withGains(
-        {0.001, 0, 0.0001} , // Distance controller gains
-        {0.001, 0, 0.0001},// turn controller gains
-        {0.000, 0, 0.0000} //Angle controller (helps bot drive straight)
-    )
-    .withMaxVelocity(50)
-    // Green gearset, 3 inch wheel diam, 9 inch wheel track
+	std::shared_ptr<ChassisController> bot = ChassisControllerBuilder()     
+			.withMotors(FRONT_LEFT_PORT, -FRONT_RIGHT_PORT, -BACK_RIGHT_PORT, BACK_LEFT_PORT)  //reverse front right and back right in order to go forward 
+			.withGains(
+				{0.001, 0, 0.0001}, // Distance controller gains
+				{0.001, 0, 0.0001}, // turn controller gains
+				{0.000, 0, 0.0000}	// Angle controller (helps bot drive straight)
+				)
+			.withMaxVelocity(50)
+			// Green gearset, 3 inch wheel diam, 9 inch wheel track
 
-    .withDimensions(AbstractMotor::gearset::green, {{3_in, 9_in}, imev5GreenTPR})
-    .build();
+			.withDimensions(AbstractMotor::gearset::green, {{3_in, 9_in}, imev5GreenTPR})
+			.build();
 
 	pros::lcd::set_text(1, "THIS IS AUTON!");
-    bot->moveDistance(10_in); //drive forward 2 ft. 
+	bot->moveDistance(10_in); //drive forward 10 inches
 
 }
 
@@ -118,10 +122,10 @@ void autonomous() {
 
 void opcontrol() {
 
-pros::Motor topLeft(1, false);
-pros::Motor topRight(11, true);
-pros::Motor bottRight(20, false);
-pros::Motor bottLeft(10, true);
+	pros::Motor topLeft(1, false);
+	pros::Motor topRight(11, true);
+	pros::Motor bottRight(20, false);
+	pros::Motor bottLeft(10, true);
 
 	int yMotion;
 	int xMotion;
