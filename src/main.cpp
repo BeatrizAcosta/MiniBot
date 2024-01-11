@@ -84,13 +84,13 @@ void competition_initialize() {}
 void autonomous() {
 
 	std::shared_ptr<ChassisController> bot = ChassisControllerBuilder()     
-			.withMotors(FRONT_LEFT_PORT, -FRONT_RIGHT_PORT, -BACK_RIGHT_PORT, BACK_LEFT_PORT)  //reverse front right and back right in order to go forward   
+			.withMotors(FRONT_LEFT_PORT, -FRONT_RIGHT_PORT, -BACK_RIGHT_PORT, BACK_LEFT_PORT)  // front right and back right were reversed in order to go forward   
 			// change P then D first then I only if necessary  
 			//start with P I and D with zero 
 			.withGains( //0.7, 0, 0.1 results: faster, shaking less violently 0
 		//0.5 = 
 				{0.001, 0, 0}, // Distance controller gains 
-				{0.01, 0, 0.00022}, // turn controller gains
+				{0.01, 5.2E-4, 0.00022}, // turn controller gains
 				{0.000, 0, 0.0000}	// Angle controller (helps bot drive straight)
 				)
 			.withMaxVelocity(100)
@@ -100,14 +100,10 @@ void autonomous() {
 			.build();
 
 	pros::lcd::set_text(1, "THIS IS AUTON!");
-	//bot->moveDistance(33_in); //drive forward 33 inches, turn 90 degrees, 77 inches 
-	bot->turnAngle(90_deg);
-
-
+	bot->moveDistance(33_in); //drive forward 33 inches, turn 90 degrees, 77 inches 
+	// bot->turnAngle(90_deg);
+	// bot->moveDistance(77_in);
 	
-
-	
-
 }
 
 /**
